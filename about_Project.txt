@@ -1,0 +1,53 @@
+NeuroWell  
+
+- Neurons → Neurons are the fundamental units of the brain and nervous system, responsible for transmitting information throughout the body.  
+- Well-being → Enabling a healthier, independent life for stroke survivors.  
+
+NeuroWell is an advanced neuro-rehabilitation platform designed to revolutionize stroke diagnosis and recovery.
+With over 15 million people worldwide experiencing strokes annually—resulting in 5 million deaths and another 5 million facing permanent disability—early intervention and precise rehabilitation are crucial. 
+Traditional rehabilitation methods often lack personalized treatment plans and objective progress tracking, leaving many stroke survivors struggling with incomplete recovery.  
+
+NeuroWell bridges this gap by integrating AI-driven assessments, computer vision, and speech analysis to provide real-time evaluations of cognitive, motor, and speech impairments.
+By leveraging cutting-edge technology, the platform offers personalized rehabilitation strategies based on a patient’s unique needs, helping to optimize recovery and enhance quality of life.  
+
+
+Key Statistics & Impact  
+- Stroke Recovery Rates  
+-- 10 percent of stroke survivors recover almost completely.  
+-- 25 percent recover with minor impairments.  
+-- 40 percent experience moderate to severe impairments requiring specialized care.  
+-- 15 percent require long-term care in a rehabilitation facility.  
+
+- Motor Function Impairments  
+-- 75 percent of stroke survivors experience lasting motor deficits.  
+-- Hemiparesis (weakness on one side of the body) affects 50 percent of stroke patients.  
+-- Hemiplegia (paralysis on one side of the body) impacts daily mobility and independence.  
+
+- Cognitive and Speech Challenges  
+-- Aphasia affects 30 to 40 percent of stroke patients, impairing speech production and comprehension.  
+-- Post-stroke cognitive impairment occurs in 30 percent of survivors, affecting memory, attention, and problem-solving abilities.  
+
+Vision & Sensory Impairments  
+Strokes affecting the occipital lobe can lead to blindness, double vision, or visual field loss.  
+Up to 65 percent of stroke survivors report sensory deficits, such as numbness or abnormal sensations.  
+
+How NeuroWell Enhances Rehabilitation  
+
+AI-Powered Assessments - Uses computer vision and speech recognition to analyze patient progress.  
+Personalized Therapy Plans - Tailored exercises based on real-time performance data.  
+Remote Monitoring & Tele-Rehabilitation - Enables doctors and therapists to track recovery anytime, anywhere.  
+Multilingual Support - Google Translate integration helps bridge language barriers in rehabilitation.  
+Interactive Recovery Tools - Game-based therapies using OpenCV and CVZone for engaging neuro-rehabilitation.  
+
+Scientific Backing & Research-Driven Approach  
+
+NeuroWell is built on a strong foundation of 20 plus research papers, analyzing various neuro-rehabilitation techniques and their effectiveness in stroke recovery. 
+Based on these insights, we have developed a series of interactive, AI-powered games and assessments that engage patients in an immersive rehabilitation process, including  
+
+Speech assessment tests with real-time feedback and scoring.  
+Hand-eye coordination games like the ping-pong ball challenge.  
+Cognitive skill tests such as picture-matching exercises.  
+Motor function games like the AI-powered Snake Game.  
+Progress tracking dashboards with graphical score analysis for long-term improvement.  
+
+By combining cutting-edge AI with evidence-based rehabilitation techniques, NeuroWell empowers stroke survivors with data-driven recovery plans, better accessibility to therapy, and improved long-term outcomes.
