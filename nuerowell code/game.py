@@ -21,9 +21,9 @@ detector = HandDetector(detectionCon=0.8, maxHands=1)
 
 class SnakeGameClass:
     def __init__(self, pathFood):
-        self.points = []
+        self.points = []     # Stores snake body points
         self.lengths = []  
-        self.currentLength = 0
+        self.currentLength = 0    # Total snake length
         self.allowedLength = 150
         self.previousHead = (0, 0)
         self.imgFood = cv2.imread(pathFood, cv2.IMREAD_UNCHANGED)
@@ -37,7 +37,7 @@ class SnakeGameClass:
         self.gameOver = False
         self.randomFoodLocation()
         
-    def randomFoodLocation(self):
+    def randomFoodLocation(self):    # Generates a random (x, y) coordinate for the food within range
         self.foodPoint = random.randint(100, 1000), random.randint(100, 600)
         
     def update(self, imgMain, currentHead):
@@ -75,13 +75,14 @@ class SnakeGameClass:
         rx, ry = self.foodPoint
         imgMain = cvzone.overlayPNG(imgMain, self.imgFood, (rx - self.wFood // 2, ry - self.hFood // 2))
 
-       
+       #The snake's head is at (cx, cy), obtained from pointIndex (index finger tip).
         if rx - self.wFood // 2 < cx < rx + self.wFood // 2 and \
+        
                 ry - self.hFood // 2 < cy < ry + self.hFood // 2:
-            self.randomFoodLocation()
-            self.allowedLength += 50
-            self.score += 1
-            st.success(f"Score: {self.score}")
+            self.randomFoodLocation()    # Generate new food at a random position
+            self.allowedLength += 50      # Increase snake's allowed length
+            self.score += 1                # Increase score
+            st.success(f"Score: {self.score}")    # Display success message in Streamlit
 
         return imgMain
     
@@ -148,17 +149,13 @@ def app():
                 st.write("Game Recognition Progress")
                 st.dataframe(df)
 
-    patient_name = st.text_input("Enter patient name:")
-
-        
+    patient_name = st.text_input("Enter patient name:")        
     score = st.number_input("Enter the score patient made in 40 seconds:", min_value=0)
     
-
         # Button to calculate and update the  score....
     if st.button("Upload Score"):
             # Calculate the  score...
             speech_score = score
-
             # Search for the patient by name and update the score...
             try:
                 cell = sheet.find(patient_name)
@@ -166,11 +163,26 @@ def app():
                 sheet.update_cell(row_index, 6, speech_score)
                 st.success(f"Snake score updated successfully for {patient_name} in Google Sheets!")
             except gspread.exceptions.CellNotFound:
-                st.error("Patient not found. Please check the name and try again.")
-
-    
-    
+                st.error("Patient not found. Please check the name and try again.") 
 
 # Run the app
 if __name__ == "__main__":
     app()
+
+
+
+# Google Sheets API authentication setup for reading/writing scores
+# HandDetector initialized with 80% confidence threshold for tracking one hand
+# SnakeGameClass initializes game parameters, including snake length and food position
+# randomFoodLocation() generates a random coordinate for food placement on the screen
+# update() handles snake movement, food collision, and score updates in real-time
+# Distance between consecutive snake segments is calculated using Euclidean distance
+# Older segments are removed when the snake exceeds the allowed length to maintain limit
+# Snake body is drawn using cv2.line(), and the head is marked with cv2.circle()
+# Food image is overlaid using cvzone.overlayPNG() to maintain transparency
+# Snake grows and score increases when head position overlaps with food coordinates
+# OpenCV captures live webcam feed, flips it horizontally for natural hand movement
+# Hand landmarks are detected, and index finger tip position is extracted for control
+# Game runs for 40 seconds, dynamically updating snake position based on hand tracking
+# Game progress is stored in Streamlit session state for display after execution
+# Google Sheets is updated with the final score when the user submits their name
