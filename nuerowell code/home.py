@@ -1,23 +1,23 @@
-import streamlit as st
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import pandas as pd
+import streamlit as st      
+import gspread         #To interact with Google Sheets
+from oauth2client.service_account import ServiceAccountCredentials      #For Google Sheets API authentication.
+import pandas as pd     #To handle patient data as a DataFrame.
 import io
-import pyminizip
+import pyminizip          #To create password-protected ZIP files.
 
 # Google Sheets API credentials
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("neurowell-5b8eaaee5d15.json", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("neurowell-5b8eaaee5d15.json", scope)     #Loads the JSON credentials file for authentication. in place of neurowell-5b8eaaee5d15.json enter you .json file path name
 client = gspread.authorize(creds)
-sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1lRSSzi6IfIEEKkfpMj67QI3S4ukyKzr2_yDlVEFGQcc/edit?gid=0#gid=0").sheet1
+sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1lRSSzi6IfIEEKkfpMj67QI3S4ukyKzr2_yDlVEFGQcc/edit?gid=0#gid=0").sheet1     #Authorizes access and connects to the Google Sheet by its URL.
 
-# Function to get all data from Google Sheets
+# Function to get all data from Google Sheets and converts them into a Pandas DataFrame.
 def get_all_data():
     records = sheet.get_all_records()
     df = pd.DataFrame(records)
     return df
 
-# Function to add a new patient
+# Function to add a new patient , The extra "" placeholders for future test results.
 def add_new_patient(name, age, gender):
     sheet.append_row([name, age, gender, "", "", "", ""])
 
@@ -27,6 +27,7 @@ def get_patient_data(name):
     return records[records['name'] == name]
 
 def app():
+    #Displays the title in a gradient color.
     gradient_text_html = """
           <style>
           .gradient-text {
@@ -49,7 +50,7 @@ def app():
     
     with col1:
         option = st.selectbox("Select an option", ["New Patient", "Existing Patient"])
-
+        #Accepts input fields for Name, Age, and Gender.
         if option == "New Patient":
             st.subheader("Add New Patient")
             name = st.text_input("Name")
@@ -58,7 +59,7 @@ def app():
             if st.button("Add Patient"):
                 add_new_patient(name, age, gender)
                 st.success(f"Patient {name} added successfully!")
-
+        #Accepts a patient's name and searches for them in Google Sheets.
         elif option == "Existing Patient":
             st.subheader("Retrieve Patient Information")
             name = st.text_input("Enter Patient Name")
@@ -96,12 +97,9 @@ def app():
         )
 
     st.image('divider.png')
-
-
-
-
     st.image('divider.png')
-
+    
+    #instructions to nurse
     st.subheader(':blue[Instructions to Nurse]')
     st.write('1. Add new patients by selecting "New Patient" from the dropdown menu and if it is a old patient and wants all info please click existing user and retrieve his details')
     st.write('2. There are 4 tests being done. Each has a audio guide choose your language and make sure you do not have any confusion before starting the process')
@@ -111,7 +109,5 @@ def app():
     st.write('')
     st.write('')
     st.write('')
-
-
 if __name__ == "_main_":
     app()
