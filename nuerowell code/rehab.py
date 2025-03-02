@@ -1,16 +1,18 @@
-import cv2
-import mediapipe as mp
+import cv2   # Handles video capture, image processing, and drawing text on frames.
+import mediapipe as mp # Provides pre-trained models for hand landmark detection.
 import streamlit as st
-import time
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 
 # Initialize MediaPipe Hands solution
-mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
+mp_hands = mp.solutions.hands    #provides a pre-trained hand tracking model
+mp_drawing = mp.solutions.drawing_utils 
+#mp_drawing (from mediapipe.solutions.drawing_utils) is used to draw hand landmarks and connections on the image.
+#This makes it easier to visualize the detected hand and its key points.
 
 # Function to count fingers
+#Compares the Y-coordinates of each fingertip with its proximal interphalangeal (PIP) joint.
+#If a fingertip is higher than its PIP, it is considered raised.
+#Thumb: Uses x-coordinates because it moves sideways.
+
 def count_fingers(hand_landmarks):
     if hand_landmarks:
         fingers = [
@@ -26,11 +28,17 @@ def count_fingers(hand_landmarks):
         return finger_count
     return 0
 
+
 # Function to check if hand is oriented correctly
+#It prevents errors in finger detection by filtering out upside-down hands.
 def is_hand_oriented_correctly(hand_landmarks):
+     # Get the Y-coordinate of the wrist
     wrist_y = hand_landmarks.landmark[mp_hands.HandLandmark.WRIST].y
+    # Get the Y-coordinate of the middle finger tip
     middle_finger_tip_y = hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].y
+    # The hand is considered "correctly oriented" if the middle finger tip is above the wrist
     return middle_finger_tip_y < wrist_y
+
 
 # Function to run the finger counting detection and store metrics
 def run_finger_detection():
@@ -52,9 +60,12 @@ def run_finger_detection():
             if not ret:
                 st.write("Failed to capture image from camera.")
                 break
-
+                
+            #Converts frame from BGR to RGB (since OpenCV uses BGR but MediaPipe uses RGB).
             image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            #Processes the image using MediaPipe Hands (hands.process(image)).
             results = hands.process(image)
+            #Converts the frame back to BGR for OpenCV display
             image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
             if results.multi_hand_landmarks:
@@ -101,7 +112,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 # Define state machine states
-STATE_LEFT_WRIST = 0
+STATE_LEFT_WRIST = 0 #Detect left-hand wrist movement. Track the Y-coordinate of the left wrist. Compare it with the previous frame’s Y-coordinate to detect movement.
 STATE_RIGHT_WRIST = 1
 STATE_LEFT_FINGER = 2
 STATE_RIGHT_FINGER = 3
@@ -110,11 +121,12 @@ STATE_RIGHT_FINGER = 3
 state = STATE_LEFT_WRIST
 
 # Initialize counters and thresholds
-prev_wrist_y_left = None
+prev_wrist_y_left = None   # Stores previous Y-position of the left wrist
 prev_wrist_y_right = None
 wrist_movement_count_left = 0
 wrist_movement_count_right = 0
-movement_threshold = 20
+
+movement_threshold = 20   #If the wrist moves by at least 20 pixels (or units), it counts as one movement
 rounds_left_hand = 0
 rounds_right_hand = 0
 rounds_threshold = 5
@@ -200,6 +212,7 @@ def app():
                         wrist_movement_count_right = 0
                         cv2.putText(image, 'OK, great! Show 1 finger with left hand!', (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
 
+                #Counts wrist movement if the wrist has moved significantly (> movement_threshold).
                 elif state == STATE_LEFT_FINGER:
                     if results.multi_hand_landmarks and len(results.multi_hand_landmarks) > 0:
                         hand_landmarks = results.multi_hand_landmarks[0]
@@ -222,7 +235,8 @@ def app():
 
                 if cv2.waitKey(10) & 0xFF == ord('q'):
                     break
-
+        
+        # Releases the webcam and closes all OpenCV windows.
         cap.release()
         cv2.destroyAllWindows()
 
