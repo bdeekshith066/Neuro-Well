@@ -46,6 +46,9 @@ for name, path in image_paths.items():
         if image.shape[2] == 3:
             # Add an alpha channel
             alpha_channel = np.ones((image.shape[0], image.shape[1], 1), dtype=image.dtype) * 255
+            #  Ensuring Images Have an Alpha Channel as Some images might have only three channels (BGR) instead of four (BGRA). This block ensures every image has an alpha channel (for transparency).
+            # An alpha channel controls opacity, which is crucial for overlaying game elements smoothly.
+
             image = np.concatenate((image, alpha_channel), axis=2)
         images[name] = image
     else:
@@ -58,12 +61,16 @@ imgBackground = cv2.resize(images["background"], (1280, 720))
 # Ensure imgBackground has 3 channels for blending
 if imgBackground.shape[2] == 4:
     imgBackground = cv2.cvtColor(imgBackground, cv2.COLOR_BGRA2BGR)
+    # If the background has an alpha channel, it's converted to BGR. This prevents errors when blending with OpenCV functions that expect three-channel images.
 
 # Initialize game variables
-ballPos = [100, 100]
+ballPos = [100, 100]     
+# the ball starts at (100,100) in the frame.
 speedX = 23
 speedY = 23
+# The ball moves 23 pixels per frame in both X and Y directions.
 gameOver = False
+#  The game starts in an active state.
 
 def update_game():
     global ballPos, speedX, speedY, gameOver, scoree, images
@@ -73,14 +80,17 @@ def update_game():
         st.error("Failed to read from webcam.")
         st.stop()
 
-    img = cv2.flip(img, 1)
+    img = cv2.flip(img, 1)  
+    #  Mirrors the frame horizontally so that movement feels natural (like a mirror reflection).
     imgRaw = img.copy()
     hands, img = detector.findHands(img, flipType=False)
 
     # Ensure img and imgBackground have the same size and number of channels
     imgBackground_resized = cv2.resize(imgBackground, (img.shape[1], img.shape[0]))
+    # Ensures the background image matches the webcam frame size.
 
     img = cv2.addWeighted(img, 0.2, imgBackground_resized, 0.8, 0)
+    # 20% webcam feed (img) and 80% game background (imgBackground_resized)
 
     if hands:
         for hand in hands:
@@ -95,6 +105,8 @@ def update_game():
                     speedX = -speedX
                     ballPos[0] += 30
                     scoree[0] += 1
+                # If the detected left hand is near X = 59, the left bat image is overlaid.
+                # If the ball overlaps the bat's position, speedX is inverted (ball bounces back).
 
             if hand['type'] == "Right":
                 img = cvzone.overlayPNG(img, images["right_bat"], (1195, y1))
@@ -102,10 +114,12 @@ def update_game():
                     speedX = -speedX
                     ballPos[0] -= 30
                     scoree[1] += 1
+                # The right bat is placed at X = 1195.
 
     # Game Over
     if ballPos[0] < 40 or ballPos[0] > 1200:
         gameOver = True
+    # If the ball crosses X < 40 (left edge) or X > 1200 (right edge), the game ends.
 
     if gameOver:
         img = images["game_over"]
@@ -119,6 +133,9 @@ def update_game():
 
         ballPos[0] += speedX
         ballPos[1] += speedY
+
+        # If the ball reaches Y = 500 (bottom) or Y = 10 (top), it bounces back by inverting speedY. 
+        # ballPos[0] += speedX, ballPos[1] += speedY → Moves the ball by updating its position every frame.
 
         # Draw the ball
         img = cvzone.overlayPNG(img, images["ball"], ballPos)
@@ -150,6 +167,10 @@ def app():
         start_button = st.form_submit_button("Click here to start the test analysis")
 
         if start_button:
+
+            cap = cv2.VideoCapture(0)
+            cap.set(3, 1280)
+            cap.set(4, 720)
             FRAME_WINDOW = st.image([])
 
             start_time = time.time()
