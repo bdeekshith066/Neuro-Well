@@ -1,8 +1,10 @@
-import streamlit as st
+# The Community page showcases real-life stories from stroke survivors and caregivers, fostering support, motivation, and knowledge sharing. Members share recovery journeys, 
+# challenges, and rehabilitation strategies, creating a compassionate space for encouragement and collective growth.
 
+
+import streamlit as st
 def app():
 
-    
     gradient_text_html = """
     <style>
     .gradient-text {
@@ -17,7 +19,6 @@ def app():
     </style>
     <div class="gradient-text">Community</div>
     """
-
     # Render the gradient text
     st.markdown(gradient_text_html, unsafe_allow_html=True)
     st.write(" :orange[Where Strength Meets Support: Join Our Community of Stroke Warriors and Caregivers]")
@@ -34,14 +35,12 @@ def app():
             st.write('ohns Recovery Journey: John, a stroke survivor, shares his progress and challenges on the community page. He discusses how he regained mobility through consistent physiotherapy exercises recommended by Neuro Well. Other patients find motivation in Johns journey and share their own recovery milestones, fostering a supportive environment.')
             st.form_submit_button("Thanks to NeuroWell ")
 
-
     with col3:
         with st.form("person2"):
             st.write("")
             st.image('images/person2.jpg')
             st.write('Emmas Emotional Support: Emma, newly diagnosed with stroke-related aphasia, uses the community page to connect with others facing similar communication challenges. Through shared experiences and tips from fellow members, Emma learns new strategies to improve her speech and feels less isolated during her recovery.')
             st.form_submit_button("NeuroWell Helped Me")
-
 
     with col5:
         with st.form("person3"):
