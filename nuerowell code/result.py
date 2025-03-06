@@ -1,3 +1,12 @@
+"""
+Given a patient's game, cognitive, motor, and voice scores, the trained model predicts a mobility score (1-10).
+Based on the predicted mobility score, the system classifies the patient's condition:
+Score < 4 → Requires an exoskeleton.
+Score 4-6 → Needs rehab and electrical impulses.
+Score > 6 → Needs light exercises for full recovery.
+
+"""
+
 import streamlit as st
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
