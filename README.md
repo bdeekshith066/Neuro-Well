@@ -30,3 +30,53 @@ Neuro Well addresses the critical challenge of accurately assessing and treating
 |------------|------------|---------------------|
 | ![Image](https://github.com/user-attachments/assets/4f7aace8-69d8-49ee-82f9-db61846812f9) | ![Image](https://github.com/user-attachments/assets/187d0a08-e2dc-4685-9219-e94d1dd04098) | ![Image](https://github.com/user-attachments/assets/260500ae-b060-40f0-b7c5-c340841caecc) |
 | **Snake Game** <br> _Move your hand towards the food, coordination test..._ | **Result Page** <br> _Displays your scores and assessment results_ | **Score Visualization** <br> _Plotted graphs for better score visualization_ |
+
+<br>
+
+## Basic Hardware Implementation
+| Flex Sensors  | Hand Gloves | LED Display |
+|------------|------------|---------------------|
+| ![Image](https://github.com/user-attachments/assets/280a69d3-0693-49c9-87c1-036a670f57fd) | ![Image](https://github.com/user-attachments/assets/fad2f6f9-7404-45ee-be57-8b6db807df25) | ![Image](https://github.com/user-attachments/assets/c398a247-bc9f-47cc-a147-5ea6903db3ad) |
+| **Flex Sensors** <br> _Detects finger movements by measuring the bending angle, crucial for mobility analysis._ | **Hand Gloves** <br> _Equipped with servo motors and flex sensors to assist movement and provide rehabilitation feedback._  | **LED Display** <br> _Shows real-time sensor readings and mobility scores for immediate feedback._  |
+
+<br>
+<br>
+
+## Installation and Setup
+
+Follow the steps below to set up and run the project:
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/bdeekshith066/Neuro-Well.git
+```
+
+
+### 2. Navigate to the Project Directory
+```bash
+cd Neuro-Well
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+
+```
+### 4. Run the Application
+```bash
+streamlit run app.py
+```
+
+<br>
+
+## Contributors  
+- **[bdeekshith066](https://github.com/bdeekshith066)** - Lead Developer, Software Implementation  
+- **[sanjanawg](https://github.com/sanjanawg)** - Conceptualization, Project Planning & Execution  
+- **[Skandakm29](https://github.com/Skandakm29)** - Hardware Design & Integration  
+
+<br>
+
+## Contact  
+For queries or collaborations, feel free to reach out:  
+📧 Email: [bdeekshith6@gmail.com](mailto:bdeekshith6@gmail.com)  
+🔗 LinkedIn: [Deekshith](https://www.linkedin.com/in/deekshith2912/)  
